@@ -212,13 +212,31 @@ document.head.appendChild(script);
 const PASS = '1234';
 let pdfDoc = null, currentScale = 1.0, baseScale = 1.0;
 
+// 從網址參數讀取資料
+const urlParams = new URLSearchParams(window.location.search);
+const FILE_ID    = urlParams.get('fileId') || '';
+const APPLICANT  = urlParams.get('applicant') || 'HR Cram';
+const NOTE       = urlParams.get('note') || '（無備註）';
+const DOC_TYPE   = urlParams.get('type') || '薪資請款審核';
+const UPLOAD_DATE = urlParams.get('upload_date') || '';
+const SHEET_ID   = urlParams.get('sheetId') || '';
+const SCRIPT_URL = urlParams.get('scriptUrl') || '';
+
 // Set time on load
 window.addEventListener('load', () => {
   const n = new Date();
-  document.getElementById('submit-time-display').textContent =
-    n.getFullYear() + '/' + String(n.getMonth()+1).padStart(2,'0') + '/' +
-    String(n.getDate()).padStart(2,'0') + ' ' +
-    String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+  document.getElementById('submit-time-display').textContent = UPLOAD_DATE || (n.getFullYear() + '/' + String(n.getMonth()+1).padStart(2,'0') + '/' + String(n.getDate()).padStart(2,'0') + ' ' + String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0'));
+  document.getElementById('applicant-display').textContent = APPLICANT;
+  document.getElementById('note-preview-display').textContent = NOTE.length > 30 ? NOTE.slice(0,30)+'…' : NOTE;
+  document.getElementById('doc-type-display').textContent = DOC_TYPE;
+  document.getElementById('note-avatar').textContent = APPLICANT.slice(0,2).toUpperCase();
+  document.getElementById('note-text-display').textContent = NOTE;
+
+  // 如果有 fileId，載入 Google Drive PDF
+  if (FILE_ID) {
+    const pdfUrl = `https://drive.google.com/uc?export=download&id=${FILE_ID}`;
+    loadPDFFromUrl(pdfUrl);
+  }
 });
 
 
@@ -274,99 +292,70 @@ function tryUnlock() {
 
 
 
+
+function loadPDFFromUrl(url) {
+  const waitLib = setInterval(() => {
+    if (typeof pdfjsLib === 'undefined') return;
+    clearInterval(waitLib);
+    pdfjsLib.getDocument({ url, withCredentials: false }).promise.then(doc => {
+      pdfDoc = doc;
+      renderAllPages();
+    }).catch(err => {
+      document.getElementById('pdf-placeholder').textContent = 'PDF 載入中，請稍候或重新整理…';
+      console.error('PDF載入失敗:', err);
+    });
+  }, 100);
+}
+
 function getTimeStr() {
   const n = new Date();
   return n.getFullYear()+'/'+String(n.getMonth()+1).padStart(2,'0')+'/'+String(n.getDate()).padStart(2,'0')+' '+String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');
 }
 
-const SHEETS_API = 'https://script.google.com/macros/s/AKfycbzGOMphAfuR6jdFrW_got_pXABA_RPz_07thpo8MFEtAnsHj5T24-M1UNcgGQrmOdg3/exec';
-
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-
 function doAction(type) {
   const isApprove = type === 'approve';
-  const applicant = document.getElementById('applicant-display').textContent;
-  const note = document.getElementById('note-text-display').textContent;
   const timeStr = getTimeStr();
-  const uploadDate = document.getElementById('submit-time-display').textContent;
 
-  // 寫入 Google Sheets
-  const payload = {
-    upload_date:  uploadDate,
-    type:         '薪資請款審核',
-    applicant:    applicant,
-    note:         note,
-    result:       isApprove ? 'Approved' : 'Rejected',
-    review_time:  timeStr
-  };
-
-  fetch(SHEETS_API, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  }).catch(err => console.error('Sheets 寫入失敗:', err));
-
-  if (!isApprove) {
-    showResult(type);
-    return;
-  }
-
-  // Approved → 發 Email
   document.getElementById('action-area').style.display = 'none';
   const r = document.getElementById('result-area');
   r.style.display = 'block';
-  r.innerHTML = `<div class="result-banner approved" style="opacity:0.6;">
+  r.innerHTML = `<div class="result-banner ${isApprove?'approved':'rejected'}" style="opacity:0.6;">
     <div class="result-icon">⏳</div>
-    <div><div class="result-main">核准中，正在發送通知…</div></div>
+    <div><div class="result-main">處理中…</div></div>
   </div>`;
 
-  const filename = '（薪資請款文件）';
-  emailjs.init(EMAILJS_PUBLIC_KEY);
-  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-    to_email:     'cram_lee@papy.com.tw',
-    to_name:      applicant,
-    doc_type:     '薪資請款審核',
-    applicant:    applicant,
-    note:         note,
-    filename:     filename,
-    approve_time: timeStr,
-    approver:     '總經理',
-    status:       'Approved ✓',
+  // 送到 Apps Script：記錄 Sheets + 刪除 PDF
+  const payload = {
+    action: 'approve',
+    upload_date: UPLOAD_DATE,
+    type: DOC_TYPE,
+    applicant: APPLICANT,
+    note: NOTE,
+    result: isApprove ? 'Approved' : 'Rejected',
+    review_time: timeStr,
+    fileId: FILE_ID,
+    sheetId: SHEET_ID
+  };
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify(payload)
   }).then(() => {
-    showResult('approve', true);
-  }).catch(err => {
-    console.error('Email 發送失敗:', err);
-    showResult('approve', false);
+    showResult(type, timeStr);
+  }).catch(() => {
+    showResult(type, timeStr);
   });
 }
 
-function showResult(type, emailSent) {
-  document.getElementById('action-area').style.display = 'none';
+function showResult(type, timeStr) {
   const isApprove = type === 'approve';
   const r = document.getElementById('result-area');
-  r.style.display = 'block';
-
-  let emailStatus = '';
-  if (isApprove && emailSent === true) {
-    emailStatus = `<div style="margin-top:10px; padding:8px 12px; background:rgba(22,101,52,0.1); border-radius:8px; font-size:13px; color:var(--success-text);">
-      ✉️ 核准通知已發送至 HR Cram
-    </div>`;
-  } else if (isApprove && emailSent === false) {
-    emailStatus = `<div style="margin-top:10px; padding:8px 12px; background:#fef3c7; border-radius:8px; font-size:13px; color:#92400e;">
-      ⚠️ Email 發送失敗，請檢查 EmailJS 設定
-    </div>`;
-  }
-
   r.innerHTML = `<div class="result-banner ${isApprove?'approved':'rejected'}">
     <div class="result-icon">${isApprove?'✓':'✕'}</div>
     <div style="flex:1;">
       <div class="result-main">${isApprove?'已核准':'已退回'}</div>
       <div class="result-meta">${isApprove?'核准':'退回'}人：總經理</div>
-      <div class="result-meta">時間：${getTimeStr()}</div>
-      ${emailStatus}
+      <div class="result-meta">時間：${timeStr}</div>
     </div>
   </div>`;
   r.scrollIntoView({behavior:'smooth',block:'center'});
