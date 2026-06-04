@@ -13,21 +13,15 @@
     --accent: #8b4513;
   }
   body { font-family: 'Noto Sans TC', sans-serif; background: linear-gradient(135deg, #fdf6ee 0%, #f5e6d3 40%, #eedcc8 70%, #f0e0cc 100%); color: var(--text-primary); min-height: 100vh; font-size: 16px; line-height: 1.7; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1rem; }
-
   .card { background: linear-gradient(160deg, #fffcf8 0%, #fef0dc 100%); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem 2rem; max-width: 480px; width: 100%; box-shadow: 0 8px 32px rgba(139,69,19,0.10); animation: fadeUp 0.5s ease both; }
-
   @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-
   .header { text-align: center; margin-bottom: 2rem; }
   .logo { font-family: 'Noto Serif TC', serif; font-size: 13px; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 10px; }
   .title { font-family: 'Noto Serif TC', serif; font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
   .subtitle { font-size: 14px; color: var(--text-secondary); }
-
   .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
-
   .field { margin-bottom: 1.25rem; }
   .field label { font-size: 14px; color: var(--text-secondary); display: block; margin-bottom: 6px; font-weight: 500; }
-
   .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .type-btn { padding: 14px 10px; border: 1.5px solid var(--border); border-radius: 12px; background: var(--surface); cursor: pointer; text-align: center; transition: all 0.2s; font-family: 'Noto Sans TC', sans-serif; }
   .type-btn:hover { border-color: #c8713a; background: #fef6ee; }
@@ -35,45 +29,30 @@
   .type-icon { font-size: 24px; margin-bottom: 6px; display: block; }
   .type-label { font-size: 14px; font-weight: 500; color: var(--text-primary); }
   .type-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-
   .upload-area { border: 1.5px dashed var(--border); border-radius: 12px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.2s; background: var(--bg); }
   .upload-area:hover { border-color: #c8713a; background: #fef6ee; }
   .upload-area.has-file { border-color: #4a8c52; background: #f0faf0; border-style: solid; }
   .upload-icon { margin-bottom: 8px; }
   .upload-text { font-size: 14px; color: var(--text-secondary); }
   .upload-name { font-size: 14px; font-weight: 500; color: #4a8c52; margin-top: 4px; }
-
-  input[type="text"], textarea {
-    width: 100%; font-size: 15px; padding: 10px 14px;
-    border: 1px solid var(--border); border-radius: 10px;
-    background: var(--bg); color: var(--text-primary);
-    font-family: 'Noto Sans TC', sans-serif; outline: none;
-    transition: border-color 0.2s;
-  }
+  input[type="text"], textarea { width: 100%; font-size: 15px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text-primary); font-family: 'Noto Sans TC', sans-serif; outline: none; transition: border-color 0.2s; }
   input[type="text"]:focus, textarea:focus { border-color: #c8713a; }
   textarea { min-height: 80px; resize: vertical; }
-
-  .btn-submit { width: 100%; padding: 14px; background: linear-gradient(135deg, #c8713a 0%, #8b4513 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 500; cursor: pointer; font-family: 'Noto Sans TC', sans-serif; transition: transform 0.2s, box-shadow 0.2s, background 0.2s; box-shadow: 0 4px 16px rgba(139,69,19,0.28); margin-top: 0.5rem; }
-  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,69,19,0.38); background: linear-gradient(135deg, #e0854a 0%, #a05020 100%); }
-  .btn-submit:active { transform: translateY(0); }
+  .btn-submit { width: 100%; padding: 14px; background: linear-gradient(135deg, #c8713a 0%, #8b4513 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 500; cursor: pointer; font-family: 'Noto Sans TC', sans-serif; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 16px rgba(139,69,19,0.28); margin-top: 0.5rem; }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,69,19,0.38); }
   .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-  /* 送出後的連結頁 */
+  .status-msg { text-align: center; font-size: 14px; color: var(--text-secondary); margin-top: 10px; min-height: 20px; }
   #screen-done { display: none; text-align: center; }
   .done-icon { font-size: 48px; margin-bottom: 16px; }
   .done-title { font-family: 'Noto Serif TC', serif; font-size: 22px; font-weight: 600; margin-bottom: 8px; }
   .done-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 1.5rem; }
-
   .link-box { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
   .link-url { font-size: 13px; color: var(--text-secondary); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .btn-copy { padding: 7px 14px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; font-family: 'Noto Sans TC', sans-serif; flex-shrink: 0; transition: opacity 0.2s; }
+  .btn-copy { padding: 7px 14px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; font-family: 'Noto Sans TC', sans-serif; flex-shrink: 0; }
   .btn-copy:hover { opacity: 0.85; }
-
-  .btn-reset { width: 100%; padding: 11px; background: none; color: var(--text-secondary); border: 1px solid var(--border); border-radius: 10px; font-size: 14px; cursor: pointer; font-family: 'Noto Sans TC', sans-serif; margin-top: 8px; transition: background 0.2s; }
+  .btn-reset { width: 100%; padding: 11px; background: none; color: var(--text-secondary); border: 1px solid var(--border); border-radius: 10px; font-size: 14px; cursor: pointer; font-family: 'Noto Sans TC', sans-serif; margin-top: 8px; }
   .btn-reset:hover { background: var(--bg); }
-
   .info-note { font-size: 12px; color: var(--text-muted); margin-top: 1rem; line-height: 1.6; }
-
   .tag { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 99px; margin-bottom: 12px; }
   .tag-salary { background: #fef0dc; color: #8b4513; border: 1px solid #e8c49a; }
   .tag-contract { background: #fde8e8; color: #8b3a3a; border: 1px solid #f0b8b8; }
@@ -87,9 +66,7 @@
     <div class="title">送出審核文件</div>
     <div class="subtitle">填寫資料後送出，系統產生給總經理的連結</div>
   </div>
-
   <div class="divider"></div>
-
   <div class="field">
     <label>審核類型</label>
     <div class="type-grid">
@@ -109,15 +86,13 @@
       </div>
     </div>
   </div>
-
   <div class="field">
     <label>申請人</label>
     <input type="text" id="applicant" value="HR Cram" placeholder="申請人姓名">
   </div>
-
   <div class="field">
     <label>上傳 PDF</label>
-    <div class="upload-area" id="upload-area" onclick="document.getElementById('pdf-file').click()" ondragover="event.preventDefault(); this.style.borderColor='#c8713a'" ondragleave="this.style.borderColor=''" ondrop="handleDrop(event)">
+    <div class="upload-area" id="upload-area" onclick="document.getElementById('pdf-file').click()" ondragover="event.preventDefault();" ondrop="handleDrop(event)">
       <div class="upload-icon">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#b09080" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><polyline points="12,18 12,12"/><polyline points="9,15 12,12 15,15"/></svg>
       </div>
@@ -126,44 +101,39 @@
       <input type="file" id="pdf-file" accept="application/pdf" style="display:none" onchange="loadPDF(this.files[0])">
     </div>
   </div>
-
   <div class="field">
     <label>給總經理的備註</label>
     <textarea id="note" placeholder="請說明請款事由、金額或合約重點…"></textarea>
   </div>
-
   <button class="btn-submit" id="btn-submit" onclick="submitForm()" disabled>送出審核</button>
+  <div class="status-msg" id="status-msg"></div>
 </div>
 
 <div class="card" id="screen-done">
   <div class="done-icon">✅</div>
   <div class="done-title">已送出！</div>
   <div class="done-sub">請將以下連結傳給總經理審核</div>
-
   <div id="link-tag-wrap"></div>
-
   <div class="link-box">
     <div class="link-url" id="link-url"></div>
     <button class="btn-copy" onclick="copyLink()">複製連結</button>
   </div>
-
   <div class="info-note">
-    ⚠️ 此連結為固定審核頁，總經理需輸入密碼才可查看內容。<br>
-    審核完成後結果將自動記錄至 Google Sheets。
+    ⚠️ 總經理需登入公司信箱才可查看。<br>
+    審核完成後 PDF 自動刪除，結果記錄至 Google Sheets。
   </div>
-
   <button class="btn-reset" onclick="resetForm()">再送一份</button>
 </div>
 
 <script>
-let selectedType = '';
-let pdfLoaded = false;
-
-// 審核頁連結（部署後換成你的 Netlify 網址）
-const LINKS = {
+const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/papy.com.tw/s/AKfycbyQ06w_lbn1KwsNQxCAb4D9L2X23YEVn9TTH5xVCIFa9xMTjfIYiXYrcPezYM7bhvL2/exec';
+const SHEET_ID = '1JvAyk_cAaKudbXAqN3J7SmW8lmdCQssmsx2wPK3nYOc';
+const REVIEW_LINKS = {
   salary:   'https://cramleetw-code.github.io/approval-system/approval_ceo_email.html',
   contract: 'https://cramleetw-code.github.io/approval-system/contract_ceo.html'
 };
+
+let selectedType = '', pdfFile = null, pdfLoaded = false;
 
 function selectType(type) {
   selectedType = type;
@@ -179,9 +149,9 @@ function handleDrop(e) {
 }
 
 function loadPDF(file) {
+  pdfFile = file;
   pdfLoaded = true;
-  const area = document.getElementById('upload-area');
-  area.classList.add('has-file');
+  document.getElementById('upload-area').classList.add('has-file');
   const name = document.getElementById('upload-name');
   name.style.display = 'block';
   name.textContent = '✓ ' + file.name;
@@ -189,25 +159,77 @@ function loadPDF(file) {
 }
 
 function checkReady() {
-  const ready = selectedType && pdfLoaded;
-  document.getElementById('btn-submit').disabled = !ready;
+  document.getElementById('btn-submit').disabled = !(selectedType && pdfLoaded);
 }
 
-function submitForm() {
+function getTimeStr() {
+  const n = new Date();
+  return n.getFullYear() + '/' + String(n.getMonth()+1).padStart(2,'0') + '/' + String(n.getDate()).padStart(2,'0') + ' ' + String(n.getHours()).padStart(2,'0') + ':' + String(n.getMinutes()).padStart(2,'0');
+}
+
+async function submitForm() {
+  const btn = document.getElementById('btn-submit');
+  const status = document.getElementById('status-msg');
+  btn.disabled = true;
+  status.textContent = '上傳中，請稍候…';
+
   const applicant = document.getElementById('applicant').value.trim() || 'HR Cram';
   const note = document.getElementById('note').value.trim() || '（無備註）';
-  const now = new Date();
-  const timeStr = now.getFullYear() + '/' + String(now.getMonth()+1).padStart(2,'0') + '/' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  const timeStr = getTimeStr();
   const typeLabel = selectedType === 'salary' ? '薪資請款審核' : '合約審核';
-  const link = LINKS[selectedType];
 
-  // 顯示連結頁
-  document.getElementById('screen-upload').style.display = 'none';
-  document.getElementById('screen-done').style.display = 'block';
-  document.getElementById('link-url').textContent = link;
+  try {
+    // 讀取 PDF 轉 base64
+    const base64 = await fileToBase64(pdfFile);
 
-  const tagWrap = document.getElementById('link-tag-wrap');
-  tagWrap.innerHTML = `<span class="tag ${selectedType === 'salary' ? 'tag-salary' : 'tag-contract'}">${typeLabel}</span>`;
+    // 上傳到 Google Drive
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'upload',
+        fileData: base64,
+        fileName: pdfFile.name,
+        applicant, note, type: typeLabel,
+        upload_date: timeStr,
+        sheetId: SHEET_ID
+      })
+    });
+
+    const result = await res.json();
+
+    if (result.status === 'success') {
+      // 產生帶參數的審核連結
+      const params = new URLSearchParams({
+        fileId: result.fileId,
+        applicant, note,
+        type: typeLabel,
+        upload_date: timeStr,
+        sheetId: SHEET_ID,
+        scriptUrl: APPS_SCRIPT_URL
+      });
+      const reviewLink = REVIEW_LINKS[selectedType] + '?' + params.toString();
+
+      document.getElementById('screen-upload').style.display = 'none';
+      document.getElementById('screen-done').style.display = 'block';
+      document.getElementById('link-url').textContent = reviewLink;
+      document.getElementById('link-tag-wrap').innerHTML = `<span class="tag tag-${selectedType}">${typeLabel}</span>`;
+    } else {
+      status.textContent = '上傳失敗：' + (result.message || '請重試');
+      btn.disabled = false;
+    }
+  } catch(err) {
+    status.textContent = '錯誤：' + err.message;
+    btn.disabled = false;
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 function copyLink() {
@@ -220,17 +242,16 @@ function copyLink() {
 }
 
 function resetForm() {
-  selectedType = '';
-  pdfLoaded = false;
+  selectedType = ''; pdfFile = null; pdfLoaded = false;
   document.getElementById('type-salary').classList.remove('selected');
   document.getElementById('type-contract').classList.remove('selected');
   document.getElementById('upload-area').classList.remove('has-file');
   document.getElementById('upload-name').style.display = 'none';
-  document.getElementById('upload-name').textContent = '';
   document.getElementById('note').value = '';
   document.getElementById('applicant').value = 'HR Cram';
   document.getElementById('pdf-file').value = '';
   document.getElementById('btn-submit').disabled = true;
+  document.getElementById('status-msg').textContent = '';
   document.getElementById('screen-upload').style.display = 'block';
   document.getElementById('screen-done').style.display = 'none';
 }
